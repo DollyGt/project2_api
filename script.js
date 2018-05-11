@@ -12,8 +12,22 @@ function displayNicely(apiData) {
     
     
     let htmlString2 = "<div><strong>Writer:</strong> " + newData.Writer + "</div>";
+        htmlString2 += "<div><strong>Runtime:</strong> " + newData.Runtime + "</div>";
+        htmlString2 += "<div><strong>Genre:</strong> " + newData.Genre + "</div>";
+        htmlString2 += "<div><strong>Director:</strong> " + newData.Director + "</div>";
+        htmlString2 += "<div><strong>Plot:</strong> " + newData.Language + "</div>";
+        htmlString2 += "<div><strong>Country:</strong> " + newData.Country + "</div>";
+        htmlString2 += "<div><strong>Production:</strong> " + newData.Production + "</div>";
+        htmlString2 += "<div><strong>Awards:</strong> " + newData.Awards + "</div>";
+        htmlString2 += "<div><strong>Type:</strong> " + newData.Type + "</div>";
+        htmlString2 += "<div><strong>Writer:</strong> " + newData.Writer + "</div>";
+        htmlString2 += "<div><strong>Released:</strong> " + newData.Released + "</div>";
+
     document.getElementById("further_info").innerHTML = htmlString2
 }
+
+
+
 
 function submitFilm() {
     let filmTitle = document.getElementById("filmForm")['film'].value;

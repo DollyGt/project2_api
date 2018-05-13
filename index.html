@@ -4,16 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="style.css" type="text/css" />
     <script type="text/javascript" src="script.js"></script>
+    <title>Document</title>
 </head>
 <body>
+    <h2>Movie Finder</h2>
     <form id="filmForm">
-        <input name="film" type="text" />
+        <input name="film" type="text" placeholder="search movie" />
     </form>
-    <button id="submit" onclick="submitFilm()">Check</button> 
     
+    <button id="submit" onclick="submitFilm()">Check</button> 
+    <br/>
+    <br/>
     <div id="general_info"></div>
     
     <div id="further_info"></div>

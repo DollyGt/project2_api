@@ -2,21 +2,18 @@ html,body {
     height: 100%;
     margin: 0;
     background-color: skyblue;
+    
 }
-
-.search-form {
-    width: 500px;
-    margin: 0 auto;
-}
+ 
+ .button:hover {
+     color: red;
+ }
 button {
-    border-radius: 2px;
+    border-radius: 6px;
 	font-family: "sans-serif", Oswald;
-	color: blue;
+	
 	font-size: 100%;
-	padding: 5px 8px;
-	border: solid green 3px;
+	padding: 2px 3px;
+	border: solid green 4px;
 	text-decoration: none;
-}
-.button:hover {
-    color: red;
 }

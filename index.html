@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,17 +10,38 @@
     <script type="text/javascript" src="script.js"></script>
     <title>Document</title>
 </head>
+
 <body>
+    <div class="container"></div>
     <h2>Movie Finder</h2>
     <form id="filmForm">
         <input name="film" type="text" placeholder="search movie" />
     </form>
-    
-    <button id="submit" onclick="submitFilm()">Check</button> 
+
+    <button id="submit" onclick="submitFilm()">Check movie</button>
     <br/>
     <br/>
-    <div id="general_info"></div>
+    <br/>
     
-    <div id="further_info"></div>
+
+    <div class="wrapper">
+
+        <div class="main">
+
+            <div class="container">
+
+                <div class="row">
+
+                    <div classname="col-xs-5 title-container">
+
+                        <Titles />
+
+                    </div>
+
+                    <div className="col-xs-7 form-container"></div>
+                        <img id ="poster_img" src="" width="300">
+<div id="general_info"></div>
+                    <div id="further_info"></div>
 </body>
+
 </html>

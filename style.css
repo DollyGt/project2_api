@@ -7,6 +7,7 @@ body {
     margin: 0;
     font-family: "Open Sans", serif; 
     background-color: #ffb6c1; 
+    /*background: url(../images/baloon.jpg); */
 }
 
 #filmForm {
@@ -82,7 +83,7 @@ button {
   border-radius: 2px;
   font-weight: lighter;
   letter-spacing: 1px;
-  font-size: 15px;
+  font-size: 10px;
   cursor: pointer;
   background-color: #f16051;
   color: #fff;

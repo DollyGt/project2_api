@@ -1,8 +1,6 @@
 
-
 //--------- HOME PAGE LISTS ----------
 //--------- API call and listing of movies by popularity,release date & vote ----------
-
 
 function homePageMovieListsApiCall(sortBy) {
     
@@ -31,24 +29,6 @@ function homePageMovieListsApiCall(sortBy) {
     };
 }
 
-// function displayFilmsPopDesc(apiData) {
-//     let newData = JSON.parse(apiData);
-//     let moviesPopDesc = ""
-//     for (let i = 0; i <= 10; i++) {
-//         moviesPopDesc += "<a href='#' onclick='getMovieDetailApiCall(" + newData.results[i].id +")'><h6>" + newData.results[i].title + "</h6></a>" 
-//     }
-//     document.getElementById("pop_desc").innerHTML = moviesPopDesc
-// }
-
-// function displayFilmsPopAsc(apiData) {
-//     let newData = JSON.parse(apiData);
-//     let moviesPopAsc = ""
-//     for (let i = 0; i <= 10; i++) {
-//         moviesPopAsc += "<a href='#' onclick='getMovieDetailApiCall(" + newData.results[i].id +")'><h6>" + newData.results[i].title + "</h6></a>" 
-//     }
-//     document.getElementById("pop_asc").innerHTML = moviesPopAsc
-// }
-
 function homePageMovieLists(apiData, htmlId) {
     let newData = JSON.parse(apiData);
     let movies = "";
@@ -58,27 +38,19 @@ function homePageMovieLists(apiData, htmlId) {
     document.getElementById(htmlId).innerHTML = movies;
 }
 
-
 homePageMovieListsApiCall("popularity.desc");
 homePageMovieListsApiCall("release_date.desc");
 homePageMovieListsApiCall("vote_average.desc");
 
-
-
-
-
-
-
 //--------- SEARCH & RESULTS ----------
 //--------- API call and movie list search results ----------
-
 
 function searchResultsApiCall() {
     
     let request = new XMLHttpRequest();
     let movieTitle = document.getElementById("movieForm")['movie'].value;
 
-    request.open("GET", "https://api.themoviedb.org/3/search/movie?api_key=a1fa65b33d89e3f619006594e9eb848b&page=1&query=" + movieTitle);
+    request.open("GET", "https://api.themoviedb.org/3/discover/movie?api_key=a1fa65b33d89e3f619006594e9eb848b&language=en-US&sort_by=" + movieTitle);
 
     request.send();
     
@@ -95,6 +67,48 @@ function searchResultsApiCall() {
     return false;
 }
 
+// ----end of search for any movies---
+
+
+function doRequestGenres(funcToCall) {
+    let request = new XMLHttpRequest();
+    request.open("GET", "https://api.themoviedb.org/3/genre/movie/list?api_key=e5dce9ac19487be2b65ceb7be99e8ca7" )
+    request.send();
+    request.onreadystatechange= function (){
+        if (this.readyState == 4 && this.status == 200){
+            funcToCall(this.responseText)
+        }
+    }
+}
+
+function genreSelect(apiData){
+     let genreData = JSON.parse(apiData)
+     let genreSelection = "";
+     for (let i = 0; i <= genreData.genres.length -1; i++) {
+        genreSelection += "<button id='genre" + genreData.genres[i].id + "'class='btn btn-success' onclick='genreAdapt(" + genreData.genres[i].id + ")'>" + genreData.genres[i].name + "</button>"
+     }
+     document.getElementById('genre_canvas').innerHTML = genreSelection
+}
+    
+let genreIds = [];
+function genreAdapt(genreId) {
+    let fullGenreId = "#genre" + genreId;
+    if(genreIds.includes(genreId)) {
+        $(fullGenreId).css("background-color", "lemonchiffon")
+        while (genreIds.indexOf(genreId) !== -1) {
+          genreIds.splice(genreIds.indexOf(genreId), 1);
+        }
+        let genreIdsString = genreIds.join();
+        doRequestMain(yearSelect,genreIdsString);
+        doRequestMain(showMovies,genreIdsString);
+    }else {
+        $(fullGenreId).css("background-color", "#C83725")
+        genreIds.push(genreId);
+        let genreIdsString = genreIds.join();
+        doRequestMain(yearSelect,genreIdsString);
+        doRequestMain(showMovies,genreIdsString);
+    }
+}
 
 function searchResultsMovieList(apiData) {
     let newData = JSON.parse(apiData);
@@ -102,7 +116,7 @@ function searchResultsMovieList(apiData) {
     let movie_list_details = "<div class='row'>";
     
     if (newData.results.length == 0) {
-        movie_list_details = "<h5>No movies match what you have entered! Please try again</h5></div>"
+        movie_list_details = "<h5>No movies match your query! Please try again</h5></div>"
     }
     
     for (let i = 0; i <=newData.results.length -1; i++) {
@@ -134,18 +148,8 @@ document.onkeyup = function(a) {
     }
 };
 
-
-
-
-
-
-
-
-
-
 //--------- MOVIE DETAIL MODAL ----------
 //--------- API call and display movie detail modal  ----------
-
 
 function getMovieDetailApiCall(movieId) {
     console.log(movieId)
@@ -189,26 +193,7 @@ function displayMovieDetails(movieDetail, similarMovies){
     let movieDetailData = JSON.parse(movieDetail);
     let similarMoviesData = JSON.parse(similarMovies)
     
-    // let prod_companies_array = []
-    // for (let i = 0; i <= newData.production_companies.length -1; i++) {
-    //     prod_companies_array.push(newData.production_companies[i].name);
-    // }
-    // let prod_companies_string = prod_companies_array.toString()
-    
-    
-    // let prod_countries_array = []
-    // for (let i = 0; i <= newData.production_countries.length -1; i++) {
-    //     prod_countries_array.push(newData.production_countries[i].name);
-    // }
-    // let prod_countries_string = prod_countries_array.toString()
-    
-    
-    // let genres_array = []
-    // for (let i = 0; i <= newData.genres.length -1; i++) {
-    //     genres_array.push(newData.genres[i].name);
-    // }
-    // let genres_string = genres_array.toString()
-    
+   
     function arrayToString(query) {
         let array = []
         for (let i = 0; i <= query.length -1; i++) {
@@ -232,23 +217,20 @@ function displayMovieDetails(movieDetail, similarMovies){
     }else {
     movie_details += "<img src='images/placeholder.png' width='300'></div>" 
     }
-
+   
     movie_details += "<div class='col-sm-6'>"
+   
     movie_details += movieDetailData.tagline
+    movie_details += "<div><strong>Overview:</strong> " + movieDetailData.overview + "</div>";
     movie_details += "<div><strong>Release-date:</strong> " + movieDetailData.release_date + "</div>";
     movie_details += "<div><strong>Genres:</strong> " + genres + "</div>";
-    movie_details += "<div><strong>Overview:</strong> " + movieDetailData.overview + "</div>";
     movie_details += "<div><strong>Runtime:</strong> " + movieDetailData.runtime + "mins</div>";
-    movie_details += "<div><strong>Revenue:</strong>$" + movieDetailData.revenue + "</div>";
-    movie_details += "<div><strong>Status:</strong> " + movieDetailData.status + "</div>";
     movie_details += "<div><strong>Popularity:</strong> " + movieDetailData.popularity + "</div>";
     movie_details += "<div><strong>Production-countries:</strong> " + countries + "</div>";
     movie_details += "<div><strong>Original-language:</strong> " + movieDetailData.original_language + "</div>";
     movie_details += "<div><strong>Production-companies:</strong> " + companies + "</div>";
     movie_details += "<div><strong>Vote-average:</strong> " + movieDetailData.vote_average + "</div>";
     movie_details += "<div><strong>Vote-count:</strong> " + movieDetailData.vote_count + "</div>";
-    movie_details += "</div>"
-    movie_details +="</div>"
     
     
     let similar_movies = "<h4>Similar Movies</h4><div class='row'>"
@@ -276,47 +258,6 @@ function displayMovieDetails(movieDetail, similarMovies){
     $("#myModal").modal('show');
 }
 
-
-
-
-
-// function listFilmsPopAsc() {
-    
-//     let request = new XMLHttpRequest();
-
-//     request.open("GET", "https://api.themoviedb.org/3/discover/movie?api_key=a1fa65b33d89e3f619006594e9eb848b&language=en-US&sort_by=popularity.asc")
-
-//     request.send();
-    
-//     request.onreadystatechange = function() {
-//         if (this.readyState == 4 && this.status == 200) {
-//             displayFilmsPopAsc(this.responseText);
-//             }
-//         else if (this.readyState == 4 && this.status == 404) {
-//             console.log("error")
-//         }
-//     }
-
-// }
-
-// function listFilmsPopDesc() {
-    
-//     let request = new XMLHttpRequest();
-    
-//     request.open("GET", "https://api.themoviedb.org/3/discover/movie?api_key=a1fa65b33d89e3f619006594e9eb848b&language=en-US&sort_by=popularity.desc")
-
-//     request.send();
-    
-//     request.onreadystatechange = function() {
-//         if (this.readyState == 4 && this.status == 200) {
-//             console.log(this.responseText)
-//             displayFilmsPopDesc(this.responseText);
-//             }
-//         else if (this.readyState == 4 && this.status == 404) {
-//             console.log("error")
-//         }
-//     }
-// }
 
 
 

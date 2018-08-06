@@ -6,51 +6,98 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Moogle</title>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css" integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous">
+   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css" integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
     <link href="https://fonts.googleapis.com/css?family=Titan+One" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css" />
     <link rel="stylesheet" href="assets/css/style.css" type="text/css" />
-    <script type="text/javascript" src="jquery.min.js"></script>
-    <script type="text/javascript" src="script.js"></script>
-      
+    
 </head>
 
 <body>
+    <div id="messages" class="text-right"></div>
     <section id="starter">
-            <div class="row height-90 align-items-center justify-content-center">
-                <div class="col">
-                    <h1> <strong class="mog">Moogle</strong></h1>
-                    <form id="movieForm" onsubmit="searchResultsApiCall(); return false">
-                        <input autofocus id="searchText" name="movie" type="text" placeholder="search for any movie..." />
-                        <button type="submit" id="submit">Search</button>
+            <div class="row jumbotron text-center">
+                <div class="col-sm-6 col-sm-offset-3 main-form">
+                    <h1><strong class="mog">Movies</strong></h1>
+                    <p>Find movie for tonight</p>
+                    <form id="movieForm" class="" onsubmit="searchResultsApiCall(); return false;">
+                        <div class="input-group" id="genres-select">
+                        </div>
+
+                        <br>
+                        <div class="input-group">
+                            <input id="movie" type="text" name="movie" class="form-control" placeholder="Search for any movie...">
+                            <span class="input-group-btn">
+                            <button id="submit" class="btn btn-success" type="submit">Search</button>
+                        </span>
+                        </div>
+                        <br>
                     </form>
                 </div>
             </div>
     </section>
     </br>
-    </br>
+    <section id="mymovies" class="container">
+        <section id="top10" class="">
+            <div class="row" id="top_movies_lists">
 
-    <section id="mymovies">
-        <div class="row" id="top_movies_lists">
-            <div class="col-sm-4">
-                <h4>Top 10 by popularity</h4>
-                <div id="pop_desc">
+                <div class="col-sm-3 cl-xs-6">
+                    <div class="box">
+                        <div class="top-10-box">
+                            <span class="top-10">Top 10</span><br>
+                            <span class="by">By Popularity</span>
+                        </div>
+                        <div id="pop_desc"></div>
+                    </div>
+                </div>
+                <div class="col-sm-3 cl-xs-6">
+                    <div class="box">
+                        <div class="top-10-box">
+                            <span class="top-10">Top 10</span><br>
+                            <span class="by">Newest Films</span>
+                        </div>
+                        <div id="date_desc"></div>
+                    </div>
+                </div>
+                <div class="col-sm-3 cl-xs-6">
+                    <div class="box">
+                        <div class="top-10-box">
+                            <span class="top-10">Top 10</span><br>
+                            <span class="by">By Votes</span>
+                        </div>
+                        <div id="vote_desc"></div>
+                    </div>
+                </div>
+                <div class="col-sm-3 cl-xs-6">
+                    <div class="box">
+                        <div class="top-10-box">
+                            <span class="top-10">Top 10</span><br>
+                            <span class="by">By Revenue</span>
+                        </div>
+                        <div id="reve_desc"></div>
+                    </div>
                 </div>
             </div>
-
-            <div class="col-sm-4">
-                <h4>10 Newest Films</h4>
-                <div id="date_desc">
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <h4>Top 10 by vote count</h4>
-                <div id="vote_desc">
-                </div>
-            </div>
-        </div>
+        </section>
 
         <div id="movie_list"></div>
+        <section id="footer">
+            <ul>
+                <li>Something 1</li>
+                <li>Something 2</li>
+                <li>Something 3</li>
+                <li>Something 4</li>
+                <li>Something 5</li>
+            </ul>
+
+        </section>
+
+
+
+
+
+
 
         <div id="myModal" class="modal fade">
             <div class="modal-dialog">
@@ -74,24 +121,8 @@
             </div>
         </div>
     </section>
-
-
-
-
-
-
-
-
-
-
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous">
-    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
-    <script type="text/javascript" src="script.js"></script>
-
-
-
+    <script type="text/javascript" src="assets/js/script.js"></script>
 </body>
-
 </html>

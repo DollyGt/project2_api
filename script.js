@@ -275,6 +275,119 @@ function getGenres(){
     };
 }
 
+function displayGenresSelectBox(res){
+
+    let genres = res.genres;
+    let len = genres.length;
+
+    let selectElement = '<div class="form-group">';
+    selectElement += '<select class="form-control" id="genre">';
+    selectElement += '<option value="" selected>Select Genre</option>';
+    for (let i=0; i<len; i++) {
+        selectElement += '<option value="'+genres[i].id+'">'+genres[i].name+'</option>';
+    }
+
+    selectElement += '</select>';
+    selectElement += '</div>';
+
+    document.getElementById('genres-select').innerHTML = selectElement;
+
+}
+
+function frontMessage(event, bold, message){
+    if(event === 'destroy'){
+        $('.close').alert('close');
+        console.log('destroy');
+    } else {
+        document.getElementById("messages")
+            .innerHTML = "<div class='animated fadeInRight fast'><div class='alert alert-"+event+" fade in alert-dismissible'>" +
+            "<a id='close-alert' href='#' class='close' data-dismiss='alert' aria-label='close' title='close'>×</a>" +
+            "<strong>"+bold+" </strong> "+message+
+            "</div></div>";
+    }
+    return;
+}
+
+function homePageMovieListsApiCall(sortBy) {
+
+    let request = new XMLHttpRequest();
+    let url = "https://api.themoviedb.org/3/discover/movie?api_key=a1fa65b33d89e3f619006594e9eb848b&language=en-US&sort_by=";
+    request.open("GET", url+sortBy);
+    request.send();
+
+    request.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+            if (sortBy === "popularity.desc") {
+                homePageMovieLists(this.responseText, "pop_desc");
+            }
+            if (sortBy === "release_date.desc") {
+                homePageMovieLists(this.responseText, "date_desc");
+            }
+            if (sortBy === "vote_average.desc") {
+                homePageMovieLists(this.responseText, "vote_desc");
+            }
+            if (sortBy === "revenue.desc") {
+                homePageMovieLists(this.responseText, "reve_desc");
+            }
+        }
+        else if (this.readyState === 4 && this.status !== 200) {
+            console.log("error with top10 api call");
+        }
+    };
+}
+
+function homePageMovieLists(apiData, htmlId) {
+    let newData = JSON.parse(apiData);
+    //console.log(newData);
+
+    let carousel = '<div id="myCarousel'+htmlId+'" class="carousel slide" data-ride="carousel">';
+    // carousel += '<ol class="carousel-indicators">';
+    // for (let i = 0; i <= 10; i++) {
+    //     let cssClass = '';
+    //     if(i===0){
+    //         cssClass = 'active';
+    //     }
+    //     //carousel += "<a href='#' onclick='getMovieDetailApiCall(" + newData.results[i].id +")'><h6>" + newData.results[i].title + "</h6></a>" ;
+    //     carousel += '<li class="'+cssClass+'" data-target="#myCarousel-'+htmlId+'" data-slide-to="'+i+'"></li>' ;
+    // }
+    // carousel += '</ol>';
+
+    carousel += '<div class="carousel-inner">';
+
+    for (let i = 0; i <= 10; i++) {
+        let cssClass = '';
+        if(i===0){
+            cssClass = 'active';
+        }
+        carousel += '<div class="item '+cssClass+'"><div class="item-box">';
+        if(newData.results[i].poster_path !== null) {
+            carousel += '<img src="https://image.tmdb.org/t/p/w300'+ newData.results[i].poster_path +'" width="100%">';
+        } else {
+            carousel += '<img src="http://via.placeholder.com/300x450" width="100%">';
+        }
+        carousel += '<div class="top-10-details">' +
+            '<h3 class="top-10-title">'+newData.results[i].title+'</h3>' +
+            '</div>';
+        carousel += '</div></div>';
+    }
+
+    carousel += '  <a class="left carousel-control" href="#myCarousel'+htmlId+'" data-slide="prev">\n' +
+        '    <span class="glyphicon glyphicon-chevron-left"></span>\n' +
+        '    <span class="sr-only">Previous</span>\n' +
+        '  </a>\n' +
+        '  <a class="right carousel-control" href="#myCarousel'+htmlId+'" data-slide="next">\n' +
+        '    <span class="glyphicon glyphicon-chevron-right"></span>\n' +
+        '    <span class="sr-only">Next</span>\n' +
+        '  </a>\n' +
+        '</div>';
+
+    document.getElementById(htmlId).innerHTML = carousel;
+}
+
+
+
+
+
 
 
 

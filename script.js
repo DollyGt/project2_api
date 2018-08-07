@@ -2,144 +2,99 @@
 //--------- HOME PAGE LISTS ----------
 //--------- API call and listing of movies by popularity,release date & vote ----------
 
-function homePageMovieListsApiCall(sortBy) {
-    
-    let request = new XMLHttpRequest();
-
-    request.open("GET", "https://api.themoviedb.org/3/discover/movie?api_key=a1fa65b33d89e3f619006594e9eb848b&language=en-US&sort_by=" + sortBy);
-
-    request.send();
-    
-    request.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            if (sortBy == "popularity.desc") {
-                homePageMovieLists(this.responseText, "pop_desc");
-            }
-            if (sortBy == "release_date.desc") {
-                homePageMovieLists(this.responseText, "date_desc");
-            }
-            if (sortBy == "vote_average.desc") {
-                homePageMovieLists(this.responseText, "vote_desc");
-            }
-            
-        }
-        else if (this.readyState == 4 && this.status == 404) {
-            console.log("error");
-        }
-    };
-}
-
-function homePageMovieLists(apiData, htmlId) {
-    let newData = JSON.parse(apiData);
-    let movies = "";
-    for (let i = 0; i <= 10; i++) {
-        movies += "<a href='#' onclick='getMovieDetailApiCall(" + newData.results[i].id +")'><h6>" + newData.results[i].title + "</h6></a>" ;
-    }
-    document.getElementById(htmlId).innerHTML = movies;
-}
-
 homePageMovieListsApiCall("popularity.desc");
 homePageMovieListsApiCall("release_date.desc");
 homePageMovieListsApiCall("vote_average.desc");
+homePageMovieListsApiCall("revenue.desc");
+getGenres();
 
 //--------- SEARCH & RESULTS ----------
 //--------- API call and movie list search results ----------
 
 function searchResultsApiCall() {
-    
+    console.log('search api call');
+
     let request = new XMLHttpRequest();
-    let movieTitle = document.getElementById("movieForm")['movie'].value;
+    let movieInputValue = document.getElementById("movie").value;
+    let genre = '';
 
-    request.open("GET", "https://api.themoviedb.org/3/discover/movie?api_key=a1fa65b33d89e3f619006594e9eb848b&language=en-US&sort_by=" + movieTitle);
+    let el = document.getElementById("genres-select");
 
-    request.send();
-    
-    request.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            searchResultsMovieList(this.responseText);
-        }
-        else if (this.readyState == 4 && this.status == 404 || this.status == 422) {
-            document.getElementById("movie_list").innerHTML = "<h3>No Movies match your query - please try again</h3>"
-        }
-    };
-    document.getElementById("top_movies_lists").classList.add("display_none");
-    
+    //let opt = el.options[el.selectedIndex];
+
+
+    //console.log('genre : '+opt.value);
+
+    if(movieInputValue !== ''){
+        let top10 = document.getElementById("top10");
+        top10.className +=' animated';
+        top10.className +=' fadeOut';
+
+        setTimeout(function(){
+            top10.className +=' hidden';
+
+            if(genre === ''){
+                request.open("GET", "https://api.themoviedb.org/3/search/movie?api_key=a1fa65b33d89e3f619006594e9eb848b&language=en-US&query="+movieInputValue);
+            } else {
+                request.open("GET", "https://api.themoviedb.org/3/search/movie?api_key=a1fa65b33d89e3f619006594e9eb848b&language=en-US&with_genre="+genre+"&query="+movieInputValue);
+            }
+
+            request.send();
+            request.onreadystatechange = function() {
+                if (this.readyState === 4 && this.status === 200) {
+                    searchResultsMovieList(this.responseText);
+                } else if(this.readyState === 4 && this.status != 200){
+                    console.log('search api something wrong '+this.status);
+                }
+            };
+        }, 700);
+
+    } else {
+        document.getElementsByName('movie')[0].placeholder='Please type search phrase';
+        frontMessage('info','','Please type search phrase');
+    }
+
     return false;
 }
 
-// ----end of search for any movies---
-
-
-function doRequestGenres(funcToCall) {
-    let request = new XMLHttpRequest();
-    request.open("GET", "https://api.themoviedb.org/3/genre/movie/list?api_key=e5dce9ac19487be2b65ceb7be99e8ca7" )
-    request.send();
-    request.onreadystatechange= function (){
-        if (this.readyState == 4 && this.status == 200){
-            funcToCall(this.responseText)
-        }
-    }
-}
-
-function genreSelect(apiData){
-     let genreData = JSON.parse(apiData)
-     let genreSelection = "";
-     for (let i = 0; i <= genreData.genres.length -1; i++) {
-        genreSelection += "<button id='genre" + genreData.genres[i].id + "'class='btn btn-success' onclick='genreAdapt(" + genreData.genres[i].id + ")'>" + genreData.genres[i].name + "</button>"
-     }
-     document.getElementById('genre_canvas').innerHTML = genreSelection
-}
-    
-let genreIds = [];
-function genreAdapt(genreId) {
-    let fullGenreId = "#genre" + genreId;
-    if(genreIds.includes(genreId)) {
-        $(fullGenreId).css("background-color", "lemonchiffon")
-        while (genreIds.indexOf(genreId) !== -1) {
-          genreIds.splice(genreIds.indexOf(genreId), 1);
-        }
-        let genreIdsString = genreIds.join();
-        doRequestMain(yearSelect,genreIdsString);
-        doRequestMain(showMovies,genreIdsString);
-    }else {
-        $(fullGenreId).css("background-color", "#C83725")
-        genreIds.push(genreId);
-        let genreIdsString = genreIds.join();
-        doRequestMain(yearSelect,genreIdsString);
-        doRequestMain(showMovies,genreIdsString);
-    }
-}
 
 function searchResultsMovieList(apiData) {
     let newData = JSON.parse(apiData);
     let count = 0;
-    let movie_list_details = "<div class='row'>";
-    
+    let movie_list_details = "<div class='animated fadeInBottom'><div class='row moviesRow'>";
+
     if (newData.results.length == 0) {
-        movie_list_details = "<h5>No movies match your query! Please try again</h5></div>"
+        console.log("json null");
+        frontMessage('danger','No movies match your query!','Please try again');
+        return false;
     }
-    
-    for (let i = 0; i <=newData.results.length -1; i++) {
-        
-        if (count %4 == 0) {
-            movie_list_details += "</div>" + "<div class='row'>";
+
+    console.log(newData);
+
+    for (let i = 0; i <=newData.results.length -3; i++) {
+
+        if (count %6 == 0 && count !==0) {
+            movie_list_details += "</div><div class='row divider'></div><div class='row moviesRow'>";
         }
-        
-        movie_list_details += "<div class='col-sm-3 movie'><a href='#' onclick='getMovieDetailApiCall(" + newData.results[i].id +")'>";
-           if (newData.results[i].poster_path) {
+
+        movie_list_details += "<div class='col-sm-2 movie'><a href='result.html?id="+newData.results[i].id+"'>";
+           if (newData.results[i].poster_path && newData.results[i].poster_path !== null) {
                 movie_list_details += "<img src='https://image.tmdb.org/t/p/w300_and_h450_bestv2/" + newData.results[i].poster_path + "' width='100%'><br>";
             }else {
-            movie_list_details += "<img src='images/placeholder.png' width='100%'>";
+            movie_list_details += "<img src='http://via.placeholder.com/300x450' width='100%'>";
             }
-        movie_list_details += "<h4>" + newData.results[i].title + "</h4><br>";
+        movie_list_details += "<h4 class='text-center'>" + newData.results[i].title + "</h4><br>";
         movie_list_details +="</a></div>";
-        
+
         count ++;
     }
-    
-    movie_list_details += "</div>";
-    
-    document.getElementById("movie_list").innerHTML = movie_list_details;
+
+    movie_list_details += "</div></div>";
+
+     document.getElementById("movie_list").innerHTML = movie_list_details;
+    // let movieList = document.getElementById("movie_list");
+    // movieList.classList+= ' animated';
+    // movieList.classList+= ' fadeInBottom';
 }
 
 document.onkeyup = function(a) {
@@ -147,7 +102,6 @@ document.onkeyup = function(a) {
         searchResultsApiCall();
     }
 };
-
 //--------- MOVIE DETAIL MODAL ----------
 //--------- API call and display movie detail modal  ----------
 
@@ -187,6 +141,8 @@ function getMovieDetailApiCall(movieId) {
         
     }
 }
+
+// -----modal-----
 
 function displayMovieDetails(movieDetail, similarMovies){
     
@@ -259,7 +215,65 @@ function displayMovieDetails(movieDetail, similarMovies){
 }
 
 
+// -----------end of search for any movies-----
 
+
+function doRequestGenres(funcToCall) {
+    let request = new XMLHttpRequest();
+    request.open("GET", "https://api.themoviedb.org/3/genre/movie/list?api_key=e5dce9ac19487be2b65ceb7be99e8ca7" )
+    request.send();
+    request.onreadystatechange= function (){
+        if (this.readyState == 4 && this.status == 200){
+            funcToCall(this.responseText)
+        }
+    }
+}
+
+function genreSelect(apiData){
+    let genreData = JSON.parse(apiData)
+    let genreSelection = "";
+    for (let i = 0; i <= genreData.genres.length -1; i++) {
+        genreSelection += "<button id='genre" + genreData.genres[i].id + "'class='btn btn-success' onclick='genreAdapt(" + genreData.genres[i].id + ")'>" + genreData.genres[i].name + "</button>"
+    }
+    document.getElementById('genre_canvas').innerHTML = genreSelection
+}
+
+let genreIds = [];
+function genreAdapt(genreId) {
+    let fullGenreId = "#genre" + genreId;
+    if(genreIds.includes(genreId)) {
+        $(fullGenreId).css("background-color", "lemonchiffon")
+        while (genreIds.indexOf(genreId) !== -1) {
+            genreIds.splice(genreIds.indexOf(genreId), 1);
+        }
+        let genreIdsString = genreIds.join();
+        doRequestMain(yearSelect,genreIdsString);
+        doRequestMain(showMovies,genreIdsString);
+    }else {
+        $(fullGenreId).css("background-color", "#C83725")
+        genreIds.push(genreId);
+        let genreIdsString = genreIds.join();
+        doRequestMain(yearSelect,genreIdsString);
+        doRequestMain(showMovies,genreIdsString);
+    }
+}
+
+function getGenres(){
+
+    let request = new XMLHttpRequest();
+    let url = "    https://api.themoviedb.org/3/genre/movie/list?api_key=a1fa65b33d89e3f619006594e9eb848b&language=en-US";
+    request.open("GET", url);
+    request.send();
+    request.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+            let resJson = JSON.parse(this.responseText);
+            displayGenresSelectBox(resJson);
+        }
+        else if (this.readyState === 4 && this.status !== 200) {
+            console.log("error with top10 api call");
+        }
+    };
+}
 
 
 

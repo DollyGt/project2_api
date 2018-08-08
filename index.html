@@ -16,28 +16,40 @@
 
 <body>
     <div id="messages" class="text-right"></div>
-    <section id="starter">
+     <section id="starter">
             <div class="row jumbotron text-center">
-                <div class="col-sm-6 col-sm-offset-3 main-form">
+                <div class="col-sm-4 col-sm-offset-4 main-form">
                     <h1><strong class="mog">Movies</strong></h1>
                     <p>Find movie for tonight</p>
-                    <form id="movieForm" class="" onsubmit="searchResultsApiCall(); return false;">
-                        <div class="input-group" id="genres-select">
+                    <form id="mode-form" class="row">
+                        <label class="radio-inline">
+                            <input id="r1" type="radio" onclick="radioClick();" value="phrase" name="mode" checked>Phrase
+                        </label>
+                        <label class="radio-inline">
+                            <input id="r2" type="radio" onclick="radioClick();" value="genre" name="mode">Genre
+                        </label>
+                    </form>
+                    <br>
+                    <div id="animated-containers">
+                        <div id="phrase-container" class="animated">
+                            <div class="col-sm-12">
+                                <input id="phrase-input" type="text" name="movie" class="form-control" placeholder="Search for any movie...">
+                            </div>
                         </div>
 
-                        <br>
-                        <div class="input-group">
-                            <input id="movie" type="text" name="movie" class="form-control" placeholder="Search for any movie...">
-                            <span class="input-group-btn">
-                            <button id="submit" class="btn btn-success" type="submit">Search</button>
-                        </span>
+                        <div id="genre-container" class="animated">
+                            <div class="col-sm-12">
+                                <div id="genres-select"></div>
+                            </div>
                         </div>
-                        <br>
-                    </form>
+                    </div>
+                    <br>
+                    <div class="col-sm-12">
+                        <button id="search-button" onclick="searchButton()" class="btn btn-success btn-large">Search</button>
+                    </div>
                 </div>
             </div>
     </section>
-    </br>
     <section id="mymovies" class="container">
         <section id="top10" class="">
             <div class="row" id="top_movies_lists">
@@ -81,15 +93,21 @@
             </div>
         </section>
 
-        <div id="movie_list"></div>
+        <div id="movies-box"></div>
+
+        <div id="pagination-box"></div>
+
+        <div id="movies-box2"></div>
+    </section>
         <section id="footer">
-            <ul>
-                <li>Something 1</li>
-                <li>Something 2</li>
-                <li>Something 3</li>
-                <li>Something 4</li>
-                <li>Something 5</li>
-            </ul>
+            <div class="container">
+                <p>Risus proin amet a a vivamus condimentum consequat hac eu cursus suspendisse in a potenti suspendisse bibendum a primis phasellus suspendisse praesent suspendisse blandit ac vel. Scelerisque eleifend leo ligula non class aptent cras imperdiet dignissim conubia condimentum hac cursus vestibulum rhoncus vel scelerisque vestibulum adipiscing himenaeos molestie molestie a erat a ac. Mi pulvinar ullamcorper suscipit feugiat sem ad cum urna scelerisque blandit pretium bibendum dictum proin. Ut integer a aliquam potenti sit id per malesuada urna ornare vestibulum vestibulum a enim massa magna ultrices ipsum malesuada a et donec felis vehicula ante cras primis.</p>
+                <p class="text-center">
+                    <a href="#">Info</a> |
+                    <a href="#">Details</a> |
+                    <a href="#">Home</a>
+                </p>
+            </div>
 
         </section>
 

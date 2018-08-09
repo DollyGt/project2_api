@@ -1,29 +1,98 @@
 
-//--------- HOME PAGE LISTS ----------
-//--------- API call and listing of movies by popularity,release date & vote ----------
+getGenres();
 
 homePageMovieListsApiCall("popularity.desc");
 homePageMovieListsApiCall("release_date.desc");
 homePageMovieListsApiCall("vote_average.desc");
 homePageMovieListsApiCall("revenue.desc");
-getGenres();
 
-//--------- SEARCH & RESULTS ----------
-//--------- API call and movie list search results ----------
+let mode = getParameterByName('mode');
+let val = getParameterByName('val');
+let p = getParameterByName('p');
 
-function searchResultsApiCall() {
-    console.log('search api call');
+let back = getParameterByName('back');
 
-    let request = new XMLHttpRequest();
-    let movieInputValue = document.getElementById("movie").value;
-    let genre = '';
+// if back parameter, get cookie with last search and execute search
 
-    let el = document.getElementById("genres-select");
+document.onkeyup = function(a) {
+    if(a.which === 13) {
+        searchButton(1);
+    }
+};
 
-    //let opt = el.options[el.selectedIndex];
 
 
-    //console.log('genre : '+opt.value);
+//debugger;
+
+if(back==='1'){
+    let lastSearch = getCookie('last-search');
+    try {
+        let ls = JSON.parse(lastSearch);
+        if(ls.mode === 'text') {
+            setField('text',ls.val);
+        } else {
+            setTimeout(function(){
+                setField('radio',2);
+                setField('genre',ls.val);
+            }, 1500); // this has to be delayed as select box is not in the DOM yet
+        }
+        frontMessage('success','Last Search ', ' By '+ls.mode+' '+ls.val+', page: '+ls.page);
+        callApi(ls.page, ls.mode, ls.val);
+    } catch (ex) {
+        frontMessage('danger','Last Search Not Found', ' Start new Search');
+        console.error(ex);
+        console.log('genre select box not created yet .....')
+    }
+}
+/**
+ *
+ * functions start here
+ * @param page
+ */
+
+
+
+/**
+ *
+ * get field from home page form by field type/string
+ *
+ * @param type
+ * @returns {boolean}
+ */
+
+
+function getField(type){
+    let value = false;
+    if(type === 'select'){
+        let el = document.getElementById("genre");
+        value = el.options[el.selectedIndex].value;
+    } else if(type === 'text'){
+        value = document.getElementById("phrase-input").value;
+    } else if(type === 'radio'){
+        let radios = document.getElementsByName('mode');
+        for (let i = 0, length = radios.length; i < length; i++) {
+            if (radios[i].checked) {
+                value = radios[i].value;
+                break;
+            }
+        }
+    }
+    return value;
+}
+
+function setField(type, val){
+    if(type === 'genre'){
+        document.querySelector('#genre').value = val;
+    } else if(type === 'text'){
+        document.getElementById("phrase-input").value = val;
+    } else if(type === 'radio'){
+        if(val === 1){
+            document.querySelector('#r1').click();
+        } else if (val ===2){
+            document.querySelector('#r2').click();
+        }
+    }
+}
 
     if(movieInputValue !== ''){
         let top10 = document.getElementById("top10");

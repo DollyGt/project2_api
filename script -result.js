@@ -1,15 +1,10 @@
 let movieId = getParameterByName('id');
-
 console.log(movieId);
 
-getMovieDetailApiCall(movieId);
-
-
-// movie genres api call
-// https://api.themoviedb.org/3/movie/{movie_id}/keywords?api_key=a1fa65b33d89e3f619006594e9eb848b
-// reviews: https://api.themoviedb.org/3/movie/{movie_id}/reviews?api_key=a1fa65b33d89e3f619006594e9eb848b&language=en-US&page=1
-
-// functions
+setTimeout(function(){
+    getMovieDetailApiCall(movieId);
+    getSimiliarApiCall(movieId);
+}, 500);
 
 
 function getParameterByName(name, url) {
@@ -24,27 +19,15 @@ function getParameterByName(name, url) {
 
 function getMovieDetailApiCall(movieId) {
     console.log(movieId);
-    let request1 = new XMLHttpRequest();
-    let request2 = new XMLHttpRequest();
+    let request = new XMLHttpRequest();
+    request.open("GET", "https://api.themoviedb.org/3/movie/" + movieId + "?api_key=a1fa65b33d89e3f619006594e9eb848b&page=1");
+    request.send();
 
-    request1.open("GET", "https://api.themoviedb.org/3/movie/" + movieId + "?api_key=a1fa65b33d89e3f619006594e9eb848b&page=1");
-    request2.open("GET", "https://api.themoviedb.org/3/movie/" + movieId + "/similar?api_key=a1fa65b33d89e3f619006594e9eb848b");
-
-    request1.send();
-    request2.send();
-
-    request1.onreadystatechange = function() {
+    request.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            let request1data = this.responseText;
-            request2.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    let request2data = this.responseText;
-                    displayMovieDetails(request1data, request2data);
-                }
-                else if (this.readyState == 4 && this.status == 404) {
-                    console.log("error");
-                }
-            }
+            let res = JSON.parse(this.responseText);
+            //debugger;
+            displayMovieDetails(res);
         }
         else if (this.readyState == 4 && this.status == 404) {
             console.log("not found")
@@ -53,30 +36,45 @@ function getMovieDetailApiCall(movieId) {
     }
 }
 
-function displayMovieDetails(movieDetail, similarMovies){
+function getSimiliarApiCall(movieId) {
+    console.log(movieId);
+    let request = new XMLHttpRequest();
+    request.open("GET", "https://api.themoviedb.org/3/movie/" + movieId + "/similar?api_key=a1fa65b33d89e3f619006594e9eb848b");
 
-    let movieDetailData = JSON.parse(movieDetail);
-    let similarMoviesData = JSON.parse(similarMovies);
+    request.send();
+    request.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            let res = this.responseText;
+            res = JSON.parse(res);
+            displaySimiliar(res.results);
+        }
+        else if (this.readyState == 4 && this.status == 404) {
+            console.log("not found")
+        }
 
+    }
+}
+
+function displayMovieDetails(movieDetailData){
     let genres = arrayToString(movieDetailData.genres);
     let countries = arrayToString(movieDetailData.production_countries);
     let companies = arrayToString(movieDetailData.production_companies);
-    let movie_title = "<h1>"+movieDetailData.title+"</h1>";
-    let movie_details = "<div class='row'>";
+    let movie_details = "<div class='row animated fadeIn'>";
 
     movie_details += "<div class='col-sm-12'>";
+    movie_details += "<h1>"+movieDetailData.title+ "</h1>";
     movie_details += "<h5>"+movieDetailData.tagline+ "</h5>";
     movie_details += "<p class='overview'>" + movieDetailData.overview + "</p>";
     movie_details += "</div>";
-    movie_details += "</div>";
-    movie_details += "<div class='row'>";
+    
     movie_details += "<div class='col-sm-6'>";
 
     if (movieDetailData.poster_path) {
-        movie_details += "<img src='https://image.tmdb.org/t/p/w300_and_h450_bestv2/" + movieDetailData.poster_path + "' width='300'></div>"
+        movie_details += "<img src='https://image.tmdb.org/t/p/w300_and_h450_bestv2/" + movieDetailData.poster_path + "' width='100%'/><br><br>"
     } else {
-        movie_details += "<img src='http://via.placeholder.com/300x450' width='300'></div>"
+        movie_details += "<img src='http://via.placeholder.com/300x450' width='100%'/><br><br>"
     }
+    movie_details += "</div>";
     
     movie_details += "<div class='col-sm-6'>";
     movie_details += '<p><b>Other info</b></p>';
@@ -91,30 +89,33 @@ function displayMovieDetails(movieDetail, similarMovies){
     movie_details +='<tr><td class="td-label">Vote average</td><td class="td-value">'+movieDetailData.vote_average+'</td></tr>';
     movie_details +='<tr><td class="td-label">Vote count</td><td class="td-value">'+movieDetailData.vote_count+'</td></tr>';
     movie_details +='</tbody></table>';
+    movie_details +='</div></div>';
 
-
-
-
-    let similar_movies = "<h2>Similar Movies</h2><div class='row'>";
-
-    if (similarMoviesData.results.length == 0) {
-        similar_movies += "<h5> There are no similar movies :(</h5></div>";
-    }
-
-    for (let i = 0; i < Math.min(similarMoviesData.results.length,4); i++) {
-        similar_movies += "<div class='col-sm-3'><a href='#' onclick='getMovieDetailApiCall(" + similarMoviesData.results[i].id +")'>";
-        if (similarMoviesData.results[i].poster_path) {
-            similar_movies += "<img src='https://image.tmdb.org/t/p/w300_and_h450_bestv2/" + similarMoviesData.results[i].poster_path + "' width='100%'><br>";
-        }else {
-            similar_movies += "<img src='images/placeholder.png' width='100%'>";
-        }
-        similar_movies +="<h4>" + similarMoviesData.results[i].title + "</h4><br>";
-        similar_movies +="</a></div>";
+    document.getElementById("movie-detail").innerHTML = movie_details;
+}
+    
+function displaySimiliar(movies){
+    let similar_movies = "<div class='row animated fadeIn'>";
+    similar_movies += "<div class='col-sm-12 text-center'>";
+    if (movies.length == 0) {
+        similar_movies += "<h2 id='similiar-title' class=' oops'>Oops !! There is no similiar films</h2>";
+    } else {
+        similar_movies += "<h2 id='similiar-title'>Similar Movies</h2>";
     }
     similar_movies += "</div>";
 
-    document.getElementById("movie_title").innerHTML = movie_title;
-    document.getElementById("movie_detail").innerHTML = movie_details;
+    for (let i = 0; i < Math.min(movies.length,6); i++) {
+        similar_movies += "<div class='col-sm-2 movie'>";
+        similar_movies +="<a href='/result.html?id="+movies[i].id+"'>";
+        if (movies[i].poster_path) {
+            similar_movies += "<img src='https://image.tmdb.org/t/p/w300_and_h450_bestv2/" + movies[i].poster_path + "' width='100%'><br>";
+        }else {
+            similar_movies += "<img src='http://via.placeholder.com/300x450' width='100%'>";
+        }
+        similar_movies +="<h4 class='text-center'>" + movies[i].title + "</h4>";
+        similar_movies +="</a></div>";
+    }
+    similar_movies += "</div>";
     document.getElementById("similar_movies").innerHTML = similar_movies;
 }
 

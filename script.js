@@ -301,20 +301,112 @@ function displayMovieList(res) {
  * not used, this is to display movies one by one with delay, not finished
  * @param data = movie object
  */
+function displayMovie(data){
+    let node = document.createElement('div');
+    node.classList.add('col-sm-2');
+    node.classList.add('movie');
 
+    let nodeA = document.createElement('A');
+    let href = 'result.html?id='+data.id;
+    let text = document.createTextNode(data.title);
+    nodeA.setAttribute('href', href);
+    node.classList.add('animated');
+    node.classList.add('fadeInDown');
 
-
-
-   
-        }, 700);
-
-    } else {
-        document.getElementsByName('movie')[0].placeholder='Please type search phrase';
-        frontMessage('info','','Please type search phrase');
+    let nodeImg = document.createElement('IMG');
+    let imgPath = 'http://via.placeholder.com/300x450';
+    if ( data.poster_path && data.poster_path !== null) {
+        imgPath = 'https://image.tmdb.org/t/p/w300_and_h450_bestv2/'+data.poster_path;
     }
+    nodeImg.setAttribute('src', imgPath);
+    nodeImg.setAttribute('width', '100%');
 
-    return false;
+    let nodeTitle = document.createElement('H4');
+    nodeTitle.setAttribute('class','text-center');
+
+
+    nodeA.appendChild(nodeImg);
+    nodeTitle.appendChild(text);
+    nodeA.appendChild(nodeTitle);
+    node.appendChild(nodeA);
+    document.getElementById("movies-box2").appendChild(node);
+
+
+function displayPagination(page = 1, total = 1){
+    let div = "<div class='row paginate'>";
+    div += "<div class='col-xs-6 col-sm-6 text-left'>";
+    if(page > 1){
+        div += "<a id='prev-btn' class='btn btn-info'>Prev</a>";
+    }
+    div += "</div>";
+    if(page < total) {
+        div += "<div class='col-xs-6 col-sm-6 text-right'><a id='next-btn' class='btn btn-info'>Next</a></div>";
+    }
+    div += "</div>";
+    document.getElementById("pagination-box").innerHTML = div;
+
+    if(page > 1) {
+        document.getElementById('prev-btn').onclick = function() {
+            previousPage(page);
+        };
+    }
+    if(page < total) {
+        document.getElementById('next-btn').onclick = function() {
+            nextPage(page);
+        };
+    }
 }
+
+function nextPage(page=1){
+    page++;
+    searchButton(page);
+}
+
+function previousPage(page=2){
+    page = page-1;
+    searchButton(page);
+}
+
+
+
+
+/**
+ *
+ * get parameter from URL, name=id, URL not required
+ *
+ * @param name
+ * @param url
+ * @returns {*}
+ */
+
+ 
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, '\\$&');
+    let regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
+function getGenres(){
+
+    let request = new XMLHttpRequest();
+    let url = "    https://api.themoviedb.org/3/genre/movie/list?api_key=a1fa65b33d89e3f619006594e9eb848b&language=en-US";
+    request.open("GET", url);
+    request.send();
+    request.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+            let resJson = JSON.parse(this.responseText);
+            displayGenresSelectBox(resJson);
+        }
+        else if (this.readyState === 4 && this.status !== 200) {
+            console.log("error with top10 api call");
+        }
+    };
+}
+
 
 
 function searchResultsMovieList(apiData) {
@@ -564,7 +656,10 @@ function frontMessage(event, bold, message){
             "<strong>"+bold+" </strong> "+message+
             "</div></div>";
     }
-    return;
+     setTimeout(function(){
+        $('.close').alert('close');
+    }, 3000);
+
 }
 
 function homePageMovieListsApiCall(sortBy) {

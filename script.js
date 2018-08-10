@@ -198,6 +198,10 @@ function callApi(page = 1, mode = '', value = ''){
 
 
 
+
+
+
+
     if(movieInputValue !== ''){
         let top10 = document.getElementById("top10");
         top10.className +=' animated';

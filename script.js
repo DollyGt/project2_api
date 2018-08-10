@@ -143,6 +143,61 @@ function getCookie(cname) {
 
 
 
+
+function callApi(page = 1, mode = '', value = ''){
+
+    let apiKey = 'a1fa65b33d89e3f619006594e9eb848b';
+    let discoverUrl = 'https://api.themoviedb.org/3/discover/movie?';
+    let searchUrl = 'https://api.themoviedb.org/3/search/movie?';
+    let lang= 'en-US';
+
+    let request = new XMLHttpRequest();
+
+    if(mode === 'genre'){
+        let val = {
+            'mode':'genre',
+            'val': value,
+            'page': page
+        };
+        val = JSON.stringify(val);
+        setCookie('last-search',val);
+        request.open("GET", discoverUrl+"api_key="+apiKey+"&language="+lang+"&with_genres="+value+"&page="+page);
+    } else {
+        let val = {
+          'mode':'text',
+          'val': value,
+          'page': page
+        };
+        val = JSON.stringify(val);
+        setCookie('last-search',val);
+        request.open("GET", searchUrl+"api_key="+apiKey+"&language="+lang+"&query="+value+"&page="+page);
+    }
+
+    request.send();
+
+    request.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+            let res = JSON.parse(this.response);
+            let total = res.total_pages;
+            let page = res.page;
+            //console.log(res);
+            fadeOutTop10();
+            displayMovieList(res);
+
+        } else if (this.readyState === 4 && this.status != 200){
+            console.log('search api something wrong '+this.status);
+        }
+    };
+}
+
+
+/**
+ *
+ * Radio button click switch input fields with animation
+ */
+
+
+
     if(movieInputValue !== ''){
         let top10 = document.getElementById("top10");
         top10.className +=' animated';

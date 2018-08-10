@@ -94,6 +94,55 @@ function setField(type, val){
     }
 }
 
+function searchButton(page=1){
+    let radio = getField('radio');
+    if(radio === 'phrase'){
+        let text = getField('text');
+        if(text === ''){
+            frontMessage('info','Empty input field, ', 'Type in search text');
+        } else {
+            frontMessage('success','Phrase: '+text, ' page: '+page);
+            callApi(page, 'text', text);
+        }
+    } else if(radio === 'genre') {
+        let genre = getField('select');
+        if(genre === ''){
+            frontMessage('info','Genre is not selected', 'Use select box');
+        } else {
+            frontMessage('success','genre: '+genre, ' Page: '+page);
+            callApi(page, 'genre' , genre);
+        }
+    }
+}
+
+
+
+function setCookie(cname='', cvalue='', exdays=2) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    var expires = "expires="+d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+
+
     if(movieInputValue !== ''){
         let top10 = document.getElementById("top10");
         top10.className +=' animated';

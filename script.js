@@ -197,33 +197,115 @@ function callApi(page = 1, mode = '', value = ''){
  */
 
 
+function radioClick(){
+    let selectedValue = getField('radio');
+    if (selectedValue === 'genre'){
+        fadeOutElement('phrase-container');
+        fadeInElement('genre-container');
+    } else {
+        fadeOutElement('genre-container');
+        fadeInElement('phrase-container');
+    }
+}
+
+/**
+ * fade in and out elements by ID
+ *
+ * @param elementId
+ */
+
+function fadeOutElement(elementId = ''){
+    let el = document.getElementById(elementId);
+    el.classList.remove('fadeIn');
+    el.classList.remove('top-z');
+    el.classList.add("fadeOut");
+    el.classList.add("bottom-z");
+}
+
+function fadeInElement(elementId = ''){
+    let el = document.getElementById(elementId);
+    el.classList.remove("fadeOut");
+    el.classList.remove("bottom-z");
+    el.classList.add("fadeIn");
+    el.classList.add("top-z");
+}
+
+function fadeOutTop10(){
+    let el = document.getElementById('top10');
+    el.classList.add("fadeOut");
+    setTimeout(function(){
+        el.classList.add("hidden");
+    }, 900);
+}
 
 
 
 
 
-    if(movieInputValue !== ''){
-        let top10 = document.getElementById("top10");
-        top10.className +=' animated';
-        top10.className +=' fadeOut';
+/**
+ *
+ * display list of movies, array of objects
+ *
+ * @param data
+ * @returns {boolean}
+ */
 
-        setTimeout(function(){
-            top10.className +=' hidden';
+function displayMovieList(res) {
+    let total = res.total_pages;
+    let page = res.page;
+    let data = res.results;
 
-            if(genre === ''){
-                request.open("GET", "https://api.themoviedb.org/3/search/movie?api_key=a1fa65b33d89e3f619006594e9eb848b&language=en-US&query="+movieInputValue);
-            } else {
-                request.open("GET", "https://api.themoviedb.org/3/search/movie?api_key=a1fa65b33d89e3f619006594e9eb848b&language=en-US&with_genre="+genre+"&query="+movieInputValue);
-            }
+    let div = "<div class='animated fadeIn'><div class='row moviesRow'>";
 
-            request.send();
-            request.onreadystatechange = function() {
-                if (this.readyState === 4 && this.status === 200) {
-                    searchResultsMovieList(this.responseText);
-                } else if(this.readyState === 4 && this.status != 200){
-                    console.log('search api something wrong '+this.status);
-                }
-            };
+    if (data.length === 0) {
+        console.log("json null");
+        frontMessage('danger','No movies match your query!','Please try again');
+        return false;
+    }
+
+    let len = 0;
+
+    if(data.length === 20){
+        len = data.length -3;
+    } else {
+        len = data.length -1;
+    }
+
+    for (let i = 0; i <= len; i++) {
+
+        if (i %6 === 0 && i !==0) {
+            div += "</div><div class='row divider'></div><div class='row moviesRow'>";
+        }
+
+        div += "<div class='col-sm-2 movie'><a href='result.html?id="+ data[i].id +"'>";
+        if (data[i].poster_path && data[i].poster_path !== null) {
+            div += "<img src='https://image.tmdb.org/t/p/w300_and_h450_bestv2/" + data[i].poster_path + "' width='100%'><br>";
+        }else {
+            div += "<img src='http://via.placeholder.com/300x450' width='100%'>";
+        }
+        div += "<h4 class='text-center'>" + data[i].title + "</h4><br>";
+        div +="</a></div>";
+        //displayMovie(data[i]);
+
+    }
+
+    div += "</div>";
+
+    document.getElementById("movies-box").innerHTML = div;
+    displayPagination(page, total);
+}
+
+/**
+ *
+ *
+ * not used, this is to display movies one by one with delay, not finished
+ * @param data = movie object
+ */
+
+
+
+
+   
         }, 700);
 
     } else {

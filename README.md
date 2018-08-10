@@ -15,7 +15,7 @@ Photos photos photos-----
 The features are:
 1. Search bar : The search bar allows the user to search for any movies of their choice by typing in their query directly into the search area. This allows the user to search by any keyword. Based on that query, movies will then pop up from which the user could choose from. Once the movies are displayed, the user can click on the movie of their choice and the movie details will be displayed in a modal
 
-2.Search by genre: The users also have an option to search for movies by genre. From the dropdown menu, they can select whichever genre of their choice and the movies of that particular genre will display. There is an extended feature to the genre search which is to select the genre and proceed to type in the query for any movie under such a particular genre,(for example: select genre: say, Action. On the search bar, search for any action movie by name or keyword.) This option ensures that the user will narrow down the search results by way of displaying only the genre and query for that genre.
+2.Search by genre: The users also have the option to search for movies by genre. From the dropdown menu, they can select whichever genre of their choice and the movies of that particular genre will display. There is an extended feature to the genre search which is to select the genre and proceed to type in the query for any movie under such a particular genre,(for example: select genre: say, Action. On the search bar, search for any action movie by name or keyword.) This option ensures that the user will narrow down the search results by way of displaying only the genre and query for that genre.
 
 3. Search by catergory:
 
@@ -61,4 +61,4 @@ All content used other than the API is my work.....?????
 The photos used in this site were obtained from pixels website
 
 # Acknowledgements
-I received inspiration for this project from MY BOYFRIEND lol
+I received inspiration for this project from MY ROMEO lol

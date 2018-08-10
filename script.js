@@ -407,6 +407,40 @@ function getGenres(){
     };
 }
 
+function displayGenresSelectBox(res){
+
+    let genres = res.genres;
+    let len = genres.length;
+
+    let selectElement = '<div class="form-group">';
+    selectElement += '<select class="form-control" id="genre">';
+    selectElement += '<option value="" selected>Select Genre</option>';
+    for (let i=0; i<len; i++) {
+        selectElement += '<option value="'+genres[i].id+'">'+genres[i].name+'</option>';
+    }
+
+    selectElement += '</select>';
+    selectElement += '</div>';
+
+    document.getElementById('genres-select').innerHTML = selectElement;
+}
+
+function frontMessage(event, bold, message){
+    if(event === 'destroy'){
+        $('.close').alert('close');
+        console.log('destroy');
+    } else {
+        document.getElementById("messages")
+            .innerHTML = "<div class='animated fadeInRight fast'><div class='alert alert-"+event+" fade in alert-dismissible'>" +
+            "<a id='close-alert' href='#' class='close' data-dismiss='alert' aria-label='close' title='close'>×</a>" +
+            "<strong>"+bold+" </strong> "+message+
+            "</div></div>";
+    }
+    setTimeout(function(){
+        $('.close').alert('close');
+    }, 3000);
+
+}
 
 
 function searchResultsMovieList(apiData) {

@@ -115,7 +115,7 @@ function searchButton(page=1){
     }
 }
 
-
+//////////////////////////////////////////////////
 
 function setCookie(cname='', cvalue='', exdays=2) {
     var d = new Date();
@@ -140,6 +140,8 @@ function getCookie(cname) {
     }
     return "";
 }
+
+//////////////////////////////////////////
 
 
 function callApi(page = 1, mode = '', value = ''){
@@ -236,6 +238,10 @@ function fadeOutTop10(){
     }, 900);
 }
 
+
+
+
+
 /**
  *
  * display list of movies, array of objects
@@ -324,7 +330,7 @@ function displayMovie(data){
     nodeA.appendChild(nodeTitle);
     node.appendChild(nodeA);
     document.getElementById("movies-box2").appendChild(node);
-
+}
 
 function displayPagination(page = 1, total = 1){
     let div = "<div class='row paginate'>";
@@ -373,7 +379,7 @@ function previousPage(page=2){
  * @returns {*}
  */
 
- 
+
 function getParameterByName(name, url) {
     if (!url) url = window.location.href;
     name = name.replace(/[\[\]]/g, '\\$&');
@@ -464,7 +470,7 @@ function filterByGender(re, genre){
     }
     console.log(filteredRes);
     return filteredRes;
-
+}
 
 function homePageMovieLists(apiData, htmlId) {
     let newData = JSON.parse(apiData);
@@ -597,15 +603,6 @@ function callApiDetails(movieId) {
 
     return false;
 }
-
-
-
-
-
-
-
-
-
 
 
 

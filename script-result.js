@@ -98,7 +98,7 @@ function displaySimiliar(movies){
     let similar_movies = "<div class='row animated fadeIn'>";
     similar_movies += "<div class='col-sm-12 text-center'>";
     if (movies.length == 0) {
-        similar_movies += "<h2 id='similiar-title' class=' oops'>Oops !! There is no similiar films</h2>";
+        similar_movies += "<h2 id='similiar-title' class=' oops'>Oops !! There are no similar films</h2>";
     } else {
         similar_movies += "<h2 id='similiar-title'>Similar Movies</h2>";
     }

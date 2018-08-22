@@ -596,23 +596,5 @@ function callApiDetails(movieId) {
     };
 
     return false;
+    
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

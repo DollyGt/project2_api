@@ -2,7 +2,7 @@
 
 This is a site in which a movie API has been used for the purpose of extracting movie details that are sort of throughout the entire project.
 
-A live demo can be found here.(onclick)------------------------------
+A live demo can be found here.(onclick)-----------
 
 # Wireframes
 
@@ -20,9 +20,9 @@ Photos photos photos-----
 
 1.Search bar : The search bar allows the user to search for any movies of their choice by typing in their query directly into the search area. This allows the user to search by any keyword. Based on that query, movies will then pop up from which the user could choose from. Once the movies are displayed, the user can click on the movie of their choice and the movie details will be displayed in a modal
 
-2.Search by genre: The users also have the option to search for movies by genre. From the dropdown menu, they can select whichever genre of their choice and the movies of that particular genre will display. There is an extended feature to the genre search which is to select the genre and proceed to type in the query for any movie under such a particular genre,(for example: select genre: say, Action. On the search bar, search for any action movie by name or keyword.) This option ensures that the user will narrow down the search results by way of displaying only the genre and query for that genre.
+2.Search by genre: The users have the option to search for movies by genre. From the dropdown menu, they can select whichever genre of their choice and the movies of that particular genre will display. While on the page, the user can always go to the last search and view movies they would have viewed previously.
 
-3. Search by catergory:
+3.Search by catergory:
 
 (a) Top 10 movies by popularity,
 
@@ -34,16 +34,13 @@ Photos photos photos-----
 
 All these catergories ensures that the user does not have to spend time trying to figure out what or which movie to search for. In this catergory, only the top 10 from that catergory are shown therefore the user can select one movie at a time from each catergory and find out the movie details on a separate page.
 
-4. Pagination and back to previous page: These features allows the user to go back to the previous page or to continue to the next page if the movie they are looking for is not displayed in the evry page that they are on.
-
-# Features Left to Implement
-
+4.Pagination and back to previous page: These features allows the user to go back to the previous page or to continue to the next page if the movie they are looking for is not displayed in the evry page that they are on.
 
 # Technologies Used
 
 The technologies used for this project are:
 
-1. HTML
+1.HTML
 
 2.CSS
 
@@ -53,9 +50,9 @@ The technologies used for this project are:
 
 The project uses JQuery to simplify DOM manipulation.
 
-#Testing
+# Testing
 
-The search bar returns error if the user attempts to submit without typing any query. Also if a keyword or query submitted does not match anything---------, the error will pop up to let the user know that there is no or nothing that matches that particular query.
+The search bar returns error if the user attempts to submit without typing any query. Also if a keyword or query submitted does not match any movie, the error will pop up to let the user know that there is no or nothing that matches that particular query.
 
 # Deployment
 
@@ -67,7 +64,7 @@ All quotes used in this website were obtained from the moonlight website. Click 
 
 # Media
 
-The photos used in this site were obtained from pixels website
+The photos used in this site were obtained from pexels website
 
 # Acknowledgements
 

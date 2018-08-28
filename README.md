@@ -60,7 +60,7 @@ For deployment of this website, GitHub pages are used for hosting.
 
 # Content
 
-All quotes used in this website were obtained from the moonlight website. Click here to access the link.-------------
+All quotes used in this website were obtained from the moonlight website. See [Here](http://moonlight.movie/)
 
 # Media
 

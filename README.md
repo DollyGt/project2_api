@@ -2,19 +2,19 @@
 
 This is a site in which a movie API has been used for the purpose of extracting movie details that are sort of throughout the entire project.
 
-A live demo can be found here.(onclick)-----------
+A live version can be found [here](https://dollygt.github.io/project2_api/).
 
 # Wireframes
 
-All wireframes are drawn with a pencil.-------------------
+All wireframes are drawn with a pencil and can be viewed in the main project. 
 
 # UX
 
 The site allows the user to search for any movies of their choice by typing in their query directly into the search area. This allows the user to search by any keyword. Based on that query, movies will then pop up from which the user could choose from. Once the movies are displayed, the user can click on the movie of their choice and the movie details will be displayed in a modal. The users also have an option to search for movies by genre. From the dropdown menu, they can select whichever genre of their choice and the movies of that particular genre will display. The user also has the option to select movies based on either popularity, newest movies, vote count and by revenue.  
 
-See a brief overview
+[different browsers view]: https://material.io/tools/resizer/#url=https%3A%2F%2Fdollygt.github.io%2Fproject2_api%2F "image"
 
-Photos photos photos-----
+
 
 # Features
 
@@ -60,12 +60,9 @@ For deployment of this website, GitHub pages are used for hosting.
 
 # Content
 
-All quotes used in this website were obtained from the moonlight website. See [Here](http://moonlight.movie/)
+All quotes used in this website were obtained from the moonlight website. See [Here](http://moonlight.movie/).
 
 # Media
 
-The photos used in this site were obtained from pexels website
+The photos used in this site were obtained from pexels website [here](https://pixels.com/).
 
-# Acknowledgements
-
-I received inspiration for this project from 

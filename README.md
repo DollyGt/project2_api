@@ -6,14 +6,14 @@ A live version can be found [here](https://dollygt.github.io/project2_api/).
 
 # Wireframes
 
-All wireframes are drawn with a pencil and can be viewed in the main project. 
+All wireframes are drawn with a pencil and can be viewed in assets folder main project. 
 
 # UX
 
 The site allows the user to search for any movies of their choice by typing in their query directly into the search area. This allows the user to search by any keyword. Based on that query, movies will then pop up from which the user could choose from. Once the movies are displayed, the user can click on the movie of their choice and the movie details will be displayed in a modal. The users also have an option to search for movies by genre. From the dropdown menu, they can select whichever genre of their choice and the movies of that particular genre will display. The user also has the option to select movies based on either popularity, newest movies, vote count and by revenue.  
 
-![Screenshot 1](https://github.com/DollyGt/project2_api/blob/master/assets/images/movie%20api.png)
-![Screenshot 2](https://github.com/DollyGt/project2_api/blob/master/assets/images/movie_api.png)
+![alt text](https://github.com/DollyGt/project2_api/blob/master/assets/images/movie%20api.png)
+![alt text](https://github.com/DollyGt/project2_api/blob/master/assets/images/movie_api.png)
  
 
 # Features
@@ -24,13 +24,13 @@ The site allows the user to search for any movies of their choice by typing in t
 
 3.Search by catergory:
 
-(a) Top 10 movies by popularity,
+* Top 10 movies by popularity,
 
-(b) Top 10 movies by vote count,
+* Top 10 movies by vote count,
 
-(c) Top 10 movies by revenue and lastly
+* Top 10 movies by revenue and lastly
 
-(d) Top 10 newest movies
+* Top 10 newest movies
 
 All these catergories ensures that the user does not have to spend time trying to figure out what or which movie to search for. In this catergory, only the top 10 from that catergory are shown therefore the user can select one movie at a time from each catergory and find out the movie details on a separate page.
 

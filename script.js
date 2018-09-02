@@ -362,8 +362,6 @@ function previousPage(page=2){
 }
 
 
-
-
 /**
  *
  * get parameter from URL, name=id, URL not required
@@ -594,7 +592,7 @@ function callApiDetails(movieId) {
         }
 
     };
-
     return false;
-    
 }
+
+

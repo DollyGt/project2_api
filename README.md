@@ -70,10 +70,10 @@ All quotes used in this website were obtained from the [moonlight](http://moonli
 
 # Media
 
-The photos used in this site were obtained from[pexels](https://pixels.com/) website.
+The photos used in this site were obtained from [pexels](https://pixels.com/) website.
 
 # Acknowledgements
 
-I have watched and learned extensively by watching "The New Boston's" JavaScript totorials on youtube [here](https://www.youtube.com/user/thenewboston/search?query=javascript) and Derek Banas' javascript tutorials [here](https://www.youtube.com/user/derekbanas/search?query=javascript)
+I have watched and learned extensively by watching "The New Boston's" JavaScript tutorials on youtube [here](https://www.youtube.com/user/thenewboston/search?query=javascript) and Derek Banas' javascript tutorials [here](https://www.youtube.com/user/derekbanas/search?query=javascript)
 
 <!--Many thanks to Katie Maxwell, who worked tirelessly and sat with me long hours while i was working on this project and was always there whenever i needed her, without her help and so much dedication, this project would not have been accomplished.-->

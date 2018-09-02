@@ -104,6 +104,21 @@ function displaySimiliar(movies){
     }
     similar_movies += "</div>";
 
+    for (let i = 0; i < Math.min(movies.length,6); i++) {
+        similar_movies += "<div class='col-sm-2 movie'>";
+        similar_movies +="refreshed<br><br><a href='result.html?id="+ movies[i].id +"'>";
+        if (movies[i].poster_path) {
+            similar_movies += "<img src='https://image.tmdb.org/t/p/w300_and_h450_bestv2/" + movies[i].poster_path + "' width='100%'><br>";
+        }else {
+            similar_movies += "<img src='http://via.placeholder.com/300x450' width='100%'>";
+        }
+        similar_movies +="<h4 class='text-center'>" + movies[i].title + "</h4>";
+        similar_movies +="</a></div>";
+    }
+    similar_movies += "</div>";
+    document.getElementById("similar_movies").innerHTML = similar_movies;
+}
+
 function arrayToString(query) {
     let array = []
     for (let i = 0; i <= query.length -1; i++) {

@@ -106,7 +106,7 @@ function displaySimiliar(movies){
 
     for (let i = 0; i < Math.min(movies.length,6); i++) {
         similar_movies += "<div class='col-sm-2 movie'>";
-        similar_movies +="refreshed<br><a href='result.html?id="+ movies[i].id +"'>";
+        similar_movies +="refreshed<br><br><a href='result.html?id="+ movies[i].id +"'>";
         if (movies[i].poster_path) {
             similar_movies += "<img src='https://image.tmdb.org/t/p/w300_and_h450_bestv2/" + movies[i].poster_path + "' width='100%'><br>";
         }else {
